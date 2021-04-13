@@ -12,7 +12,7 @@
     integrity="sha512-cznfNokevSG7QPA5dZepud8taylLdvgr0lDqw/FEZIhluFsSwyvS81CMnRdrNSKwbsmc43LtRd2/WMQV+Z85AQ=="
     crossorigin="anonymous" />
   <link rel="stylesheet" href="css/style.css">
-  <title>Document</title>
+  <title>前台</title>
 </head>
 
 <body>
@@ -346,28 +346,28 @@
         <label for="customerName" class="orderInfo-label">姓名</label>
         <div class="orderInfo-inputWrap">
           <input type="text" class="orderInfo-input" id="customerName" placeholder="請輸入姓名" name="姓名">
-          <p class="orderInfo-message" data-message="姓名">必填</p>
+          <p class="orderInfo-message" data-message="姓名"></p>
         </div>
       </div>
       <div class="orderInfo-formGroup">
-        <label for="customerPhone" class="orderInfo-label">電話</label>
+        <label for="customerPhone" class="orderInfo-label">手機</label>
         <div class="orderInfo-inputWrap">
-          <input type="tel" class="orderInfo-input" id="customerPhone" placeholder="請輸入電話" name="電話">
-          <p class="orderInfo-message" data-message="電話">必填</p>
+          <input type="tel" class="orderInfo-input" id="customerPhone" placeholder="範例：0987654321" name="手機">
+          <p class="orderInfo-message" data-message="手機"></p>
         </div>
       </div>
       <div class="orderInfo-formGroup">
         <label for="customerEmail" class="orderInfo-label">Email</label>
         <div class="orderInfo-inputWrap">
           <input type="email" class="orderInfo-input" id="customerEmail" placeholder="請輸入 Email" name="Email">
-          <p class="orderInfo-message" data-message="Email">必填</p>
+          <p class="orderInfo-message" data-message="Email"></p>
         </div>
       </div>
       <div class="orderInfo-formGroup">
         <label for="customerAddress" class="orderInfo-label">寄送地址</label>
         <div class="orderInfo-inputWrap">
           <input type="text" class="orderInfo-input" id="customerAddress" placeholder="請輸入寄送地址" name="寄送地址">
-          <p class="orderInfo-message" data-message="寄送地址">必填</p>
+          <p class="orderInfo-message" data-message="寄送地址"></p>
         </div>
       </div>
       <div class="orderInfo-formGroup">
@@ -380,7 +380,7 @@
           </select>
         </div>
       </div>
-      <input type="submit" value="送出預訂資料" class="orderInfo-btn">
+      <input type="button" value="送出預訂資料" class="orderInfo-btn">
     </form>
   </section>
 
@@ -453,6 +453,9 @@
     crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
     integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/validator/13.5.2/validator.min.js"
+    integrity="sha512-vZEoK8xRncku4g5GANHh5zobUjeCMbZkSEahrADeAcRlk/1Ignf8sAKojkV4RZLkPw145+ILJFisI2pnjsPtGQ=="
     crossorigin="anonymous"></script>
   <script src="js/main.js"></script>
 </body>

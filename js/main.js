@@ -1,17 +1,30 @@
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('hello world');
   const baseURL = 'https://hexschoollivejs.herokuapp.com/api/livejs/v1';
   const api_path = 'joey1201';
 
-  const getProductList = () => {
+  const getProductList = (filter) => {
     const url = `${baseURL}/customer/${api_path}/products`;
     axios.get(url).then((response) => {
-      // console.log(response.data.products);
-      rendorProducts(response.data.products);
+      if (filter != undefined && filter != '全部') {
+        console.log(filter);
+        const filteredProduct = response.data.products.filter(product => product.category === filter);
+        console.log(filteredProduct);
+        renderProducts(filteredProduct);
+      } else {
+        console.log(response.data.products);
+        renderProducts(response.data.products);
+      }
     });
   };
 
-  const rendorProducts = (products) => {
+  const filterProduct = (e) => {
+    console.log(e.target.value);
+    getProductList(e.target.value);
+  };
+
+  document.querySelector('.productSelect').addEventListener('change', filterProduct);
+
+  const renderProducts = (products) => {
     let productDOM = '';
     products.forEach((product) => {
       productDOM += `
@@ -38,11 +51,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const url = `${baseURL}/customer/${api_path}/carts`;
     axios.get(url).then((response) => {
       console.log(response.data.carts);
-      rendorCarts(response.data.carts);
+      renderCarts(response.data.carts);
     });
   };
 
-  const rendorCarts = (carts) => {
+  const renderCarts = (carts) => {
     let cartDOM = `<tr>
                     <th width="40%">品項</th>
                     <th width="15%">單價</th>
@@ -113,10 +126,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const addCart = (e) => {
     e.preventDefault();
     const url = `${baseURL}/customer/${api_path}/carts`;
-    let cart = {};
     const product = { data: {} };
     axios.get(url).then((response) => {
-      cart = response.data.carts.find(cart => cart.product.id === e.target.dataset.addid);
+      const cart = response.data.carts.find(cart => cart.product.id === e.target.dataset.addid);
       console.log(response.data.carts);
       if (cart != undefined) {
         product.data.productId = cart.product.id;
@@ -151,6 +163,72 @@ document.addEventListener('DOMContentLoaded', () => {
       getCartList();
     });
   };
+
+  const checkForm = () => {
+    const formData = {
+      data: {
+        user: {
+          name: undefined,
+          tel: undefined,
+          email: undefined,
+          address: undefined,
+          payment: undefined
+        }
+      }
+    };
+    const nameValue = document.querySelector('#customerName').value;
+    const phoneValue = document.querySelector('#customerPhone').value;
+    const emailValue = document.querySelector('#customerEmail').value;
+    const addressValue = document.querySelector('#customerAddress').value;
+
+    if (!validator.isEmpty(nameValue)) {
+      document.querySelector(`[data-message='姓名']`).textContent = '';
+      formData.data.user.name = nameValue;
+    } else {
+      document.querySelector(`[data-message='姓名']`).textContent = '姓名為必填';
+    }
+    if (!validator.isEmpty(phoneValue)) {
+      if (!validator.isMobilePhone(phoneValue, 'zh-TW')) {
+        document.querySelector(`[data-message='手機']`).textContent = '手機格式錯誤';
+      } else {
+        document.querySelector(`[data-message='手機']`).textContent = '';
+        formData.data.user.tel = phoneValue;
+      }
+    } else {
+      document.querySelector(`[data-message='手機']`).textContent = '手機為必填';
+    }
+    if (!validator.isEmpty(emailValue)) {
+      if (!validator.isEmail(emailValue)) {
+        document.querySelector(`[data-message='Email']`).textContent = 'Email格式錯誤';
+      } else {
+        document.querySelector(`[data-message='Email']`).textContent = '';
+        formData.data.user.email = emailValue;
+      }
+    } else {
+      document.querySelector(`[data-message='Email']`).textContent = 'Email為必填';
+    }
+    if (!validator.isEmpty(addressValue)) {
+      document.querySelector(`[data-message='寄送地址']`).textContent = '';
+      formData.data.user.address = addressValue;
+    } else {
+      document.querySelector(`[data-message='寄送地址']`).textContent = '寄送地址為必填';
+    }
+    if (formData.data.user.name && formData.data.user.tel && formData.data.user.email && formData.data.user.address) {
+      formData.data.user.payment = document.querySelector('#tradeWay').value;
+      console.log(formData);
+      newOrder(formData);
+    }
+  };
+
+  const newOrder = (order) => {
+    const url = `${baseURL}/customer/${api_path}/orders`;
+    axios.post(url, order).then((response) => {
+      console.log(response);
+      console.log('add order finished!')
+    });
+  };
+
+  document.querySelector('.orderInfo-btn').addEventListener('click', checkForm);
 
   getProductList();
   getCartList();
